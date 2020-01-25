@@ -28,6 +28,8 @@ namespace Pontok
                 Console.WriteLine($"\tAz x={item.X,3} y={item.Y,3} koordinátán: {item.Elofordulas}");
             }
 
+            Feladat03_lambda();
+
             //-- 4. feladat ------------------------------------
             Console.WriteLine($"\n4. feladat: Leghosszabb szakasz hossza: {Legnagyobb_Tavolsag()}");
 
@@ -98,6 +100,24 @@ namespace Pontok
                     }
                     
                 }
+            }
+        }
+        static void Feladat03_lambda()
+        {
+            Console.WriteLine("\nLINQ és lambda");
+            var query = pontok.GroupBy(p => new { p.X, p.Y })
+                .Select(q => new {q.Key.X, q.Key.Y, db = q.Count() })
+                .Where(r => r.db > 1);
+            foreach (var item in query)
+            {
+                var m = pontok.FindAll(p => p.X == item.X && p.Y == item.Y).Select(r => r.Ssz).ToArray();
+                //string s = "";
+                //foreach (var q in m)
+                //{
+                //    s += string.Format($" {q.Ssz}.");
+                //}
+                Console.WriteLine($"\tAz x={item.X,3} y={item.Y,3} koordinátán: {string.Join(". ", m)}.");
+
             }
         }
 
